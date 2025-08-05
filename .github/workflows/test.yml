@@ -8,22 +8,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.9"
           
-      - name: Verify script runs
+      - name: Install dependencies
+        run: pip install requests  # Install required packages
+          
+      - name: Run basic test
         run: |
           # Create minimal test CSV
           echo "email,name" > test.csv
           echo "test@example.com,Test User" >> test.csv
           
-          # Run script and check exit code
+          # Run script
           python main.py test.csv
-          if [ $? -ne 0 ]; then
-            echo "Script failed to run"
+          
+          # Verify log was created
+          if [ -f error_log.txt ]; then
+            echo "Script ran successfully"
+          else
+            echo "Error: No log file created"
             exit 1
           fi
-          
-          echo "Script executed successfully"

@@ -1,0 +1,82 @@
+import csv
+import requests
+import logging
+from typing import Dict, Any, Set
+from pathlib import Path
+
+# Constants
+REQUIRED_FIELDS = ['email']
+API_ENDPOINT = "http://172.188.53.24/api/create_user"
+TIMEOUT = 10  # seconds
+LOG_FILE = 'error_log.txt'
+
+def configure_logging() -> None:
+    """Configure logging settings."""
+    logging.basicConfig(
+        filename=LOG_FILE,
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        filemode='a'
+    )
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.WARNING)
+    logging.getLogger().addHandler(console_handler)
+
+def get_missing_fields(user_data: Dict[str, Any]) -> Set[str]:
+    """Identify which required fields are missing or empty."""
+    return {
+        field for field in REQUIRED_FIELDS
+        if field not in user_data or not str(user_data.get(field, '')).strip()
+    }
+
+def validate_and_log_user_data(user_data: Dict[str, Any], row_num: int) -> bool:
+    """Validate user data and log specific missing fields with row info."""
+    missing_fields = get_missing_fields(user_data)
+    if missing_fields:
+        user_ident = user_data.get('name', 'unnamed user') or 'unnamed user'
+        logging.warning(
+            f"Skipped row {row_num} ({user_ident}): Missing required field(s) - {', '.join(missing_fields)}"
+        )
+        return False
+    return True
+
+def create_user(user_data: Dict[str, Any], row_num: int) -> bool:
+    """Send user creation request to API endpoint."""
+    try:
+        response = requests.post(
+            API_ENDPOINT,
+            json=user_data,
+            timeout=TIMEOUT
+        )
+        response.raise_for_status()
+        return response.status_code == 201
+    except requests.exceptions.RequestException as e:
+        email = user_data.get('email', 'no-email-provided')
+        logging.error(f"API call failed for row {row_num} ({email}): {str(e)}")
+        return False
+
+def create_users(file_path: str) -> None:
+    """Read user data from CSV and create users via API."""
+    configure_logging()
+    
+    if not Path(file_path).exists():
+        logging.error(f"Input file does not exist: {file_path}")
+        return
+
+    try:
+        with open(file_path, 'r') as f:
+            reader = csv.DictReader(f)
+            for row_num, row in enumerate(reader, start=1):
+                if not validate_and_log_user_data(row, row_num):
+                    continue
+
+                if create_user(row, row_num):
+                    logging.info(f"Successfully created user {row['email']} (row {row_num})")
+                else:
+                    logging.error(f"Failed to create user {row['email']} (row {row_num})")
+
+    except Exception as e:
+        logging.error(f"Unexpected error: {str(e)}")
+
+if __name__ == "__main__":
+    create_users("users.csv")

@@ -1,0 +1,26 @@
+name: Python CI
+
+on: [push, pull_request]  # Triggers
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4  # Checkout code
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'  # Your Python version
+        
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      
+    - name: Run validation
+      run: python -c "from main import validate_user_data; assert validate_user_data({'email': 'test@test.com'})"
+      
+    - name: Test script execution
+      run: |
+        python main.py --test-mode  # Add test mode flag to your script
+        [ -f error_log.txt ] && echo "Log file created"

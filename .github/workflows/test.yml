@@ -18,12 +18,9 @@ jobs:
           
       - name: Run basic test
         run: |
-      #     # Create minimal test CSV
-      #     echo "email,name" > test.csv
-      #     echo "test@example.com,Test User" >> test.csv
           
           # Run script
-          python main.py #test.csv
+          python main.py
           
           # Verify log was created
           if [ -f error_log.txt ]; then

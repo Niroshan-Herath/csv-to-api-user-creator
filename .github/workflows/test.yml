@@ -23,7 +23,8 @@ jobs:
       #     echo "test@example.com,Test User" >> test.csv
           
           # Run script
-          python main.py #test.csv
+          python main.py 
+          #test.csv
           
           # Verify log was created
           if [ -f error_log.txt ]; then

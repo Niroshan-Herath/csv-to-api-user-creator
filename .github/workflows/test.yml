@@ -29,3 +29,12 @@ jobs:
             echo "Error: No log file created"
             exit 1
           fi
+
+      - name: Show log file contents
+        run: |
+          echo "--- error_log.txt contents ---"
+          if [ -f error_log.txt ]; then
+            cat error_log.txt
+          else
+            echo "error_log.txt not found"
+          fi

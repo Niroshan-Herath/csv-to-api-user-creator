@@ -54,13 +54,16 @@ Errors and important info will be logged to `error_log.txt`.
 ## Project Structure
 ```
 .
-├── .github/workflows/python-app.yml  # CI/CD pipeline configuration
-├── main.py                           # Main script with core logic
-├── mock_api/                         # Mock API Docker container files
-├── requirements.txt                  # Python dependencies
-├── test_main.py                      # Unit tests
-├── users.csv                         # Sample CSV input data
-└── README.md                         # Project documentation
+├── .github/workflows/python-app.yml         # CI/CD pipeline configuration
+├── main.py                                  # Main script with core logic
+├── mock_api/                                # Mock API Docker container files
+├── requirements.txt                         # Python dependencies
+├── sample_logs/                             # Folder for sample logs
+│   ├── error_log_api_down.txt               # API is unavailable (connection refused)
+│   ├── success_and_missing_email_logs.txt   # Rows with missing "email" field and sucess runs
+├── test_main.py                             # Unit tests
+├── users.csv                                # Sample CSV input data
+└── README.md                                # Project documentation
 ```
 
 ## Testing

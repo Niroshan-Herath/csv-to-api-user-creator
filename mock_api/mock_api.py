@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 
 @app.route("/api/create_user", methods=["POST"])
-def create_user():
+# def create_user():
     # data = request.json
     # if not data.get("email"):
     #     return jsonify({"error": "Email is required"}), 400

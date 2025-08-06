@@ -13,8 +13,6 @@ def create_user():
         return jsonify({"error": "Email is required"}), 400
     if "fail" in email:
         return jsonify({"error": "Intentional failure"}), 500
-    if random.random() < 0.3:
-        return jsonify({"error": "Random server error"}), 503
 
     return jsonify({
         "message": "User created",

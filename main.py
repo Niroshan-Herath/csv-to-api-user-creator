@@ -4,21 +4,25 @@ import logging
 from typing import Dict, Any, Set
 from pathlib import Path
 
-# Constants
+# Constants defining required fields, API details, timeout, and log filename
 
 REQUIRED_FIELDS = ["email"]
 API_ENDPOINT = "http://localhost/api/create_user"
-TIMEOUT = 10  # seconds
+TIMEOUT = 10
 LOG_FILE = "error_log.txt"
 
 
 def configure_logging() -> None:
-    """Configure logging settings."""
+    """
+    Set up logging configuration:
+    - Log messages to a file (error_log.txt) with INFO level and above
+    - Log warnings and above also printed to the console
+    """
     logging.basicConfig(
         filename=LOG_FILE,
         level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(message)s",
-        filemode="a",
+        filemode="a",  # Append to log file, do not overwrite
     )
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.WARNING)
@@ -26,7 +30,13 @@ def configure_logging() -> None:
 
 
 def get_missing_fields(user_data: Dict[str, Any]) -> Set[str]:
-    """Identify which required fields are missing or empty."""
+    """
+    Check which required fields are missing or empty in the user data.
+    Args:
+        user_data: Dictionary representing a single user's data from CSV
+    Returns:
+        A set of field names that are missing or empty
+    """
     return {
         field
         for field in REQUIRED_FIELDS
@@ -35,7 +45,15 @@ def get_missing_fields(user_data: Dict[str, Any]) -> Set[str]:
 
 
 def validate_and_log_user_data(user_data: Dict[str, Any], row_num: int) -> bool:
-    """Validate user data and log specific missing fields with row info."""
+    """
+    Validate the user data by checking for missing required fields.
+    If validation fails, log a warning with row number and missing fields.
+    Args:
+        user_data: Dictionary of user data
+        row_num: The line number from the CSV file (starting at 1)
+    Returns:
+        True if validation passes, False if required fields are missing
+    """
     missing_fields = get_missing_fields(user_data)
     if missing_fields:
         user_ident = user_data.get("name", "unnamed user") or "unnamed user"
@@ -47,7 +65,16 @@ def validate_and_log_user_data(user_data: Dict[str, Any], row_num: int) -> bool:
 
 
 def send_user_creation_request(user_data: Dict[str, Any], row_num: int) -> bool:
-    """Send user creation request to API endpoint."""
+    """
+    Send an HTTP POST request to create a user via the API endpoint.
+
+    Args:
+        user_data: Dictionary of user data to send in JSON format
+        row_num: The CSV row number for logging purposes
+
+    Returns:
+        True if user creation succeeded (status code 201), False otherwise
+    """
     try:
         response = requests.post(API_ENDPOINT, json=user_data, timeout=TIMEOUT)
         response.raise_for_status()
@@ -59,7 +86,13 @@ def send_user_creation_request(user_data: Dict[str, Any], row_num: int) -> bool:
 
 
 def create_users(file_path: str) -> None:
-    """Read user data from CSV and create users via API."""
+    """
+    Main function to read users from a CSV file and attempt to create each user.
+    It validates user data before sending API requests and logs all important events.
+
+    Args:
+        file_path: Path to the CSV file containing user data
+    """
     configure_logging()
 
     if not Path(file_path).exists():

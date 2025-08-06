@@ -22,7 +22,7 @@ def configure_logging() -> None:
         filename=LOG_FILE,
         level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(message)s",
-        filemode="a",  # Append to log file, do not overwrite
+        filemode="a",
     )
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.WARNING)

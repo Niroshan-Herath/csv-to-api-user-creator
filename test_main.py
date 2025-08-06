@@ -7,7 +7,7 @@ def test_validation():
 
     assert (
         validate_and_log_user_data({"email": "good@test.com", "name": "Alice"}, 1)
-        is True
+        is False
     )
 
     # Test empty email

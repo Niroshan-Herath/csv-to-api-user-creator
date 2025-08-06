@@ -1,0 +1,5 @@
+2025-08-06 13:52:50,613 - INFO - Successfully created user alice@example.com (row 1)
+2025-08-06 13:52:50,613 - WARNING - Skipped row 2 (Bob): Missing required field(s) - email
+2025-08-06 13:52:50,618 - INFO - Successfully created user charlie@example.com (row 3)
+2025-08-06 13:52:50,618 - WARNING - Skipped row 4 (unnamed user): Missing required field(s) - email
+2025-08-06 13:52:50,618 - WARNING - Skipped row 5 (test): Missing required field(s) - email

@@ -46,3 +46,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Run mock API container
+      run: |
+        docker run -d -p 80:80 --name mockapi niroshanh/mock-api:latest

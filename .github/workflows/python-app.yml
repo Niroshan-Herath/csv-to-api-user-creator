@@ -39,7 +39,7 @@ jobs:
     - name: Build and Push Mock API to Docker Hub
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
-        image: niroshanh/ci-cd-demo
+        image: niroshanh/ci-cd-demo:mock-api.1.0
         registry: docker.io
         dockerfile: mock_api/Dockerfile
         directory: mock_api
@@ -48,4 +48,4 @@ jobs:
 
     - name: Run mock API container
       run: |
-        docker run -d -p 80:80 --name mockapi niroshanh/mock-api:latest
+        docker run -d -p 80:80 --name mockapi niroshanh/ci-cd-demo:mock-api.1.0

@@ -4,7 +4,7 @@ import logging
 from typing import Dict, Any, Set
 from pathlib import Path
 
-# Constants defining required fields, API details, timeout, and log filename
+# Constants defining required fields, API details, timeout in seconds, and log filename
 
 REQUIRED_FIELDS = ["email"]
 API_ENDPOINT = "http://localhost/api/create_user"

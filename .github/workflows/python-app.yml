@@ -14,9 +14,7 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python 3.10
@@ -37,6 +35,10 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+        
+  mock_api:
+    runs-on: ubuntu-latest
+    steps:
     - name: Build and Push Mock API to Docker Hub
       uses: mr-smithers-excellent/docker-build-push@v6
       with:

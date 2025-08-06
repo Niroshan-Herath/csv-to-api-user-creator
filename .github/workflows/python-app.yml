@@ -50,3 +50,19 @@ jobs:
     - name: Run mock API container
       run: |
         docker run -d -p 80:80 --name mockapi niroshanh/ci-cd-demo:mock-api.1.0
+
+    - name: Wait for mock API to be healthy
+      run: |
+        echo "Waiting for mock API..."
+        for i in {1..10}; do
+          if curl -sSf http://localhost:80/health; then
+            echo "Mock API is ready!"
+            break
+          fi
+          echo "Still waiting for mock API..."
+          sleep 5
+        done
+
+    - name: Run main.py
+      run: |
+        python main.py

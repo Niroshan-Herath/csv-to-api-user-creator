@@ -6,23 +6,9 @@ app = Flask(__name__)
 @app.route("/api/create_user", methods=["POST"])
 def create_user():
     data = request.json
-    email = data.get("email", "")
-
-    if not email:
+    if not data.get("email"):
         return jsonify({"error": "Email is required"}), 400
-    if "fail" in email:
-        return jsonify({"error": "Intentional failure"}), 500
-    return (
-        jsonify(
-            {
-                "message": "User created",
-                "email": email,
-                "name": data.get("name"),
-                "role": data.get("role"),
-            }
-        ),
-        201,
-    )
+    return jsonify({"message": "User created"}), 201
 
 
 @app.route("/health")

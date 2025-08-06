@@ -15,18 +15,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout the repository code
       - uses: actions/checkout@v4
+
+      # Step 2: Set up Python environment (version 3.13)
       - name: Set up Python 3.13
         uses: actions/setup-python@v3
         with:
           python-version: '3.13'
-          
+
+      # Step 3: Install required dependencies   
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          
+
+      # Step 4: Lint the code with flake8 to catch syntax and style issues
       - name: Lint with flake8
         run: >
           # stop the build if there are Python syntax errors or undefined names
@@ -38,11 +43,13 @@ jobs:
 
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127
           --statistics
-          
+
+      # Step 5: Run unit tests using pytest
       - name: Test with pytest
         run: |
           pytest
-          
+
+      # Step 6: Build and push Docker image for mock API to Docker Hub
       - name: Build and Push Mock API to Docker Hub
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
@@ -53,12 +60,14 @@ jobs:
           directory: mock_api
           username: '${{ secrets.DOCKER_USERNAME }}'
           password: '${{ secrets.DOCKER_PASSWORD }}'
-          
+
+      # Step 7: Run the mock API container locally
       - name: Run mock API container
         run: >
           docker run -d -p 80:80 --name mockapi
           niroshanh/ci-cd-demo:mock-api.1.0
-          
+
+      # Step 8: Wait until the mock API is healthy (retry logic)
       - name: Wait for mock API to be healthy
         run: |
           echo "Waiting for mock API..."
@@ -70,7 +79,8 @@ jobs:
             echo "Still waiting for mock API..."
             sleep 5
           done
-          
+
+      # Step 9: Run the main script and verify the output log
       - name: Run main.py
         run: |
           python main.py
@@ -82,6 +92,7 @@ jobs:
             exit 1
           fi
 
+      # Step 10: Output contents of error log for visibility in CI logs
       - name: Show log file contents
         run: |
           echo "--- error_log.txt contents ---"

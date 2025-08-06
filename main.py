@@ -64,7 +64,7 @@ def validate_and_log_user_data(user_data: Dict[str, Any], row_num: int) -> bool:
     return True
 
 
-def send_user_creation_request(user_data: Dict[str, Any], row_num: int) -> bool:
+def user_creation_request(user_data: Dict[str, Any], row_num: int) -> bool:
     """
     Send an HTTP POST request to create a user via the API endpoint.
 
@@ -104,7 +104,7 @@ def create_users(file_path: str) -> None:
             for row_num, row in enumerate(reader, start=1):
                 if not validate_and_log_user_data(row, row_num):
                     continue
-                if send_user_creation_request(row, row_num):
+                if user_creation_request(row, row_num):
                     logging.info(
                         f"Successfully created user {row['email']} (row {row_num})"
                     )

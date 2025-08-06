@@ -91,11 +91,11 @@ Configured via GitHub Actions (`.github/workflows/python-app.yml`), the pipeline
 
 ## Suggestions for Future Improvements
 - Implement retry logic for transient API failures.
-- Add support for configuration via environment variables or config files.
-- Expand validation rules beyond just email.
-- Parallelize API calls for better performance with large CSVs.
-- Add more comprehensive unit and integration tests.
-- Improve logging with rotating file handlers or centralized logging.
+- Add support for configuration via environment variables or config files (rather than hardcoding).
+- Expand validation rules beyond just email (validity of email adress, name having valid characters, valid role).
+- Parallelize API calls for better performance with large CSVs (multithreading).
+- Add more sophisticated unit and integration tests.
+- Improve logging with rotating file handlers after reaching a size or centralized logging.
 
 ## Contact / Support
 For questions or issues, please open an issue or contact the maintainer.

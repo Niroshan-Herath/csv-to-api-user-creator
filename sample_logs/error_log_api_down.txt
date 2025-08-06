@@ -1,0 +1,7 @@
+2025-08-06 14:00:00,277 - ERROR - API call failed for row 1 (alice@example.com): HTTPConnectionPool(host='zlocalhost', port=80): Max retries exceeded with url: /api/create_user (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f1ace672e40>: Failed to resolve 'zlocalhost' ([Errno -3] Temporary failure in name resolution)"))
+2025-08-06 14:00:00,278 - ERROR - Failed to create user alice@example.com (row 1)
+2025-08-06 14:00:00,278 - WARNING - Skipped row 2 (Bob): Missing required field(s) - email
+2025-08-06 14:00:00,281 - ERROR - API call failed for row 3 (charlie@example.com): HTTPConnectionPool(host='zlocalhost', port=80): Max retries exceeded with url: /api/create_user (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x7f1ace63bc50>: Failed to resolve 'zlocalhost' ([Errno -3] Temporary failure in name resolution)"))
+2025-08-06 14:00:00,281 - ERROR - Failed to create user charlie@example.com (row 3)
+2025-08-06 14:00:00,282 - WARNING - Skipped row 4 (unnamed user): Missing required field(s) - email
+2025-08-06 14:00:00,282 - WARNING - Skipped row 5 (test): Missing required field(s) - email

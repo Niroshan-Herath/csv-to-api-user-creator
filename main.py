@@ -6,7 +6,7 @@ from pathlib import Path
 
 # Constants
 REQUIRED_FIELDS = ['email']
-API_ENDPOINT = "http://172.188.53.24/api/create_user"
+API_ENDPOINT = "http://localhost/api/create_user"
 TIMEOUT = 10  # seconds
 LOG_FILE = 'error_log.txt'
 

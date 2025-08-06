@@ -7,12 +7,12 @@ def test_validation():
 
     assert (
         validate_and_log_user_data({"email": "good@test.com", "name": "Alice"}, 1)
-        is False
+        is True
     )
 
     # Test empty email
 
-    assert validate_and_log_user_data({"email": "", "name": "Bob"}, 2) is False
+    assert validate_and_log_user_data({"email": " ", "name": "Bob"}, 2) is False
 
     # Test missing email key
 

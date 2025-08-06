@@ -42,5 +42,7 @@ jobs:
       with:
         image: niroshanh/ci-cd-demo
         registry: docker.io
+        dockerfile: mock_api/Dockerfile
+        directory: mock_api
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}

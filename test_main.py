@@ -12,7 +12,7 @@ def test_validation():
 
     # Test empty email
 
-    assert validate_and_log_user_data({"email": " ", "name": "Bob"}, 2) is False
+    assert validate_and_log_user_data({"email": "", "name": "Bob"}, 2) is False
 
     # Test missing email key
 

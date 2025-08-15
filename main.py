@@ -80,7 +80,7 @@ def user_creation_request(user_data: Dict[str, Any], row_num: int) -> bool:
         response.raise_for_status()
         return response.status_code == 201
     except requests.exceptions.RequestException as e:
-        email = user_data.get("email", "no-email-provided")
+        email = user_data.get("email", "no-email-provided") or "no-email-provided"
         logging.error(f"API call failed for row {row_num} ({email}): {str(e)}")
         return False
 
